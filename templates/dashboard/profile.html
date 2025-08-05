@@ -1,0 +1,587 @@
+{% extends "/includes/layout.html" %} {% block content %}
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+  <div class="alert alert-{{ category }} mb-0">{{ message }}</div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <!-- En-tête du profil -->
+  <div class="profile-header mt-3">
+    <div class="row align-items-center">
+      <div class="col-md-2 text-center text-md-start">
+        <img
+          src="https://ui-avatars.com/api/?name={{ user_firstname }}+{{ user_lastname }}&background=fff&color=4a6bdf&size=120"
+          alt="Avatar"
+          class="rounded-circle profile-avatar"
+        />
+      </div>
+      <div class="col-md-6 mt-3 mt-md-0">
+        <h2 class="mb-1">{{ user_firstname }} {{ user_lastname }}</h2>
+        <p class="mb-2">Administrateur réseau senior</p>
+        <span class="badge bg-light text-primary me-1"
+          ><i class="fas fa-briefcase me-1"></i> {{ user.department }}</span
+        >
+        <span class="badge bg-light text-primary me-1"
+          ><i class="fas fa-map-marker-alt me-1"></i> {{ user.address }}</span
+        >
+        <span class="badge bg-light text-primary"
+          ><i class="fas fa-user-tie me-1"></i> Niveau 3</span
+        >
+      </div>
+      <div class="col-md-4 mt-3 mt-md-0 text-md-end">
+        <button class="btn btn-light me-2 me-sm-0 mb-sm-2 mb-md-0">
+          <i class="fas fa-envelope me-1"></i> Message
+        </button>
+        <button
+          class="btn btn-outline-light"
+          data-bs-toggle="modal"
+          data-bs-target="#editProfileModal"
+        >
+          <i class="fas fa-edit me-1"></i> Modifier
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Colonne de gauche -->
+    <div class="col-lg-8">
+      <!-- À propos -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0"><i class="fas fa-user me-2"></i>À propos</h5>
+        </div>
+        <div class="card-body">
+          <p>
+            {{ user.bio or "Administrateur réseau avec plus de 10 ans d'expérience dans la conception, l'implémentation et la maintenance d'infrastructures réseau pour des entreprises de toutes tailles." }}
+          </p>
+
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong
+                    ><i class="fas fa-birthday-cake me-2 text-primary"></i>Date
+                    de naissance:</strong
+                  >
+                  {{ user.birth_date }}
+                </li>
+                <li class="mb-2">
+                  <strong
+                    ><i class="fas fa-phone me-2 text-primary"></i
+                    >Téléphone:</strong
+                  >
+                  {{ user.phone }}
+                </li>
+                <li class="mb-2">
+                  <strong
+                    ><i class="fas fa-envelope me-2 text-primary"></i
+                    >Email:</strong
+                  >
+                  {{ user.email }}
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong
+                    ><i class="fas fa-globe me-2 text-primary"></i>Site
+                    web:</strong
+                  >
+                  <a href="{{user.website or ''}}">{{ user.website or "www.ibrahimafadiaba.com" }}</a>
+                </li>
+                <li class="mb-2">
+                  <strong
+                    ><i class="fab fa-linkedin me-2 text-primary"></i
+                    >LinkedIn:</strong
+                  >
+                  <a href="{{user.linkedIn or ''}}">{{ user.linkedIn or "linkedin.com/in/ibrahimafadiaba" }}</a>
+                </li>
+                <li class="mb-2">
+                  <strong
+                    ><i class="fab fa-github me-2 text-primary"></i
+                    >GitHub:</strong
+                  >
+                  <a href="{{ user.github or ''}}">{{ user.github or "github.com/ibrahimafadiaba" }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expérience professionnelle -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-briefcase me-2"></i>Expérience professionnelle
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="activity-item">
+            <h6>Administrateur réseau senior</h6>
+            <p class="text-muted small mb-1">IT Networks | 2018 - Présent</p>
+            <p>
+              Gestion de l'infrastructure réseau pour plus de 500 appareils.
+              Mise en place de politiques de sécurité et supervision des
+              performances.
+            </p>
+          </div>
+
+          <div class="activity-item">
+            <h6>Administrateur réseau</h6>
+            <p class="text-muted small mb-1">DataSystems Corp | 2013 - 2018</p>
+            <p>
+              Configuration et maintenance des routeurs, commutateurs et
+              pare-feux. Résolution des problèmes réseau et assistance aux
+              utilisateurs.
+            </p>
+          </div>
+
+          <div class="activity-item">
+            <h6>Technicien réseau</h6>
+            <p class="text-muted small mb-1">NetSolutions | 2010 - 2013</p>
+            <p>
+              Support technique de niveau 2. Installation et configuration
+              d'équipements réseau pour les clients.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formation -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-graduation-cap me-2"></i>Formation
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="activity-item">
+            <h6>Master en réseaux et télécommunications</h6>
+            <p class="text-muted small mb-1">
+              Université Paris Descartes | 2008 - 2010
+            </p>
+          </div>
+
+          <div class="activity-item">
+            <h6>Licence en informatique</h6>
+            <p class="text-muted small mb-1">
+              Université Paris Diderot | 2005 - 2008
+            </p>
+          </div>
+
+          <div class="activity-item">
+            <h6>Baccalauréat Scientifique</h6>
+            <p class="text-muted small mb-1">Lycée Louis-le-Grand | 2005</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne de droite -->
+    <div class="col-lg-4">
+      <!-- Statistiques -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-chart-line me-2"></i>Statistiques
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-6 mb-4">
+              <div class="stats-icon mb-2">
+                <i class="fas fa-network-wired"></i>
+              </div>
+              <h4 class="mb-1">7</h4>
+              <p class="text-muted small mb-0">Appareils gérés</p>
+            </div>
+            <div class="col-6 mb-4">
+              <div class="stats-icon mb-2">
+                <i class="fas fa-bell"></i>
+              </div>
+              <h4 class="mb-1">5</h4>
+              <p class="text-muted small mb-0">Alertes résolues</p>
+            </div>
+            <!-- <div class="col-6">
+                            <div class="stats-icon mb-2">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h4 class="mb-1">89%</h4>
+                            <p class="text-muted small mb-0">Tâches complétées</p>
+                        </div>
+                        <div class="col-6">
+                            <div class="stats-icon mb-2">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4 class="mb-1">4.2h</h4>
+                            <p class="text-muted small mb-0">Temps moyen/réponse</p>
+                        </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Compétences -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-code me-2"></i>Compétences techniques
+          </h5>
+        </div>
+        <div class="card-body">
+          <span class="badge bg-primary skill-badge">Cisco IOS</span>
+          <span class="badge bg-primary skill-badge">Juniper Junos</span>
+          <span class="badge bg-primary skill-badge">Pare-feux</span>
+          <span class="badge bg-primary skill-badge">VPN</span>
+          <span class="badge bg-primary skill-badge">TCP/IP</span>
+          <span class="badge bg-primary skill-badge">DNS/DHCP</span>
+          <span class="badge bg-primary skill-badge">LAN/WAN</span>
+          <span class="badge bg-primary skill-badge">Wi-Fi</span>
+          <span class="badge bg-primary skill-badge">Python</span>
+          <span class="badge bg-primary skill-badge">Bash</span>
+          <span class="badge bg-primary skill-badge">SNMP</span>
+          <span class="badge bg-primary skill-badge">Nagios</span>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-certificate me-2"></i>Certifications
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <h6 class="mb-1">CCNP Enterprise</h6>
+            <p class="text-muted small mb-0">Cisco | 2021</p>
+          </div>
+          <div class="mb-3">
+            <h6 class="mb-1">JNCIP-ENT</h6>
+            <p class="text-muted small mb-0">Juniper | 2019</p>
+          </div>
+          <div>
+            <h6 class="mb-1">CompTIA Security+</h6>
+            <p class="text-muted small mb-0">CompTIA | 2017</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activité récente -->
+      <div class="card profile-card mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-history me-2"></i>Activité récente
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="activity-item">
+            <h6 class="mb-1">Résolu l'alerte #1245</h6>
+            <p class="text-muted small mb-0">
+              Pare-feu bloquant le trafic légitime
+            </p>
+            <small class="text-muted">Aujourd'hui, 14:30</small>
+          </div>
+
+          <div class="activity-item">
+            <h6 class="mb-1">Généré le rapport mensuel</h6>
+            <p class="text-muted small mb-0">Performance réseau juillet 2025</p>
+            <small class="text-muted">Hier, 09:15</small>
+          </div>
+
+          <div class="activity-item">
+            <h6 class="mb-1">Mis à jour la topologie</h6>
+            <p class="text-muted small mb-0">Ajout du nouveau switch Cisco</p>
+            <small class="text-muted">28/07/2025, 16:45</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Modal Édition du Profil -->
+<div
+  class="modal fade"
+  id="editProfileModal"
+  tabindex="-1"
+  aria-labelledby="editProfileModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProfileModalLabel">
+          Modifier le Profil
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="profileForm" method="POST" action="{{ url_for('profile') }}">
+          <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="personal-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#personal"
+                type="button"
+              >
+                Informations personnelles
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="professional-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#professional"
+                type="button"
+              >
+                Professionnel
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="security-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#security"
+                type="button"
+              >
+                Sécurité
+              </button>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="profileTabsContent">
+            <!-- Onglet Informations personnelles -->
+            <div
+              class="tab-pane fade show active"
+              id="personal"
+              role="tabpanel"
+            >
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="firstName" class="form-label">Prénom</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    name="firstName"
+                    value="{{ user.firstname }}"
+                    placeholder="Jean"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Nom</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    name="lastName"
+                    value="{{ user.lastname }}"
+                    placeholder="Dupont"
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="birthDate" class="form-label"
+                    >Date de naissance</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="birthDate"
+                    name="birthDate"
+                    value="{{ user.birth_date }}"
+                    placeholder="01/01/2001"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Téléphone</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    placeholder="+221 70 948 63 86"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="jeandupont@gmail.com"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="address" class="form-label">Adresse</label>
+                <textarea class="form-control" id="address" name="address" rows="2">
+Keur Massar, Sénégal</textarea
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="avatar" class="form-label">Photo de profil</label>
+                <input class="form-control" type="file" id="avatar" name="avatar" />
+              </div>
+            </div>
+
+            <!-- Onglet Professionnel -->
+            <div class="tab-pane fade" id="professional" role="tabpanel">
+              <div class="mb-3">
+                <label for="jobTitle" class="form-label">Poste</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="jobTitle"
+                  name="jobTitle"
+                  placeholder="Administrateur réseau senior"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="department" class="form-label">Département</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="department"
+                  name="department"
+                  placeholder="IT Infrastructure"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="skills" class="form-label">Compétences</label>
+                <select class="form-select" id="skills" name="skills" multiple>
+                  <option selected>Cisco IOS</option>
+                  <option selected>Juniper Junos</option>
+                  <option selected>Pare-feux</option>
+                  <option selected>VPN</option>
+                  <option selected>TCP/IP</option>
+                  <option>Cloud Networking</option>
+                  <option>SD-WAN</option>
+                  <option>Automation</option>
+                </select>
+                <div class="form-text">
+                  Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner
+                  plusieurs options
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="bio" class="form-label">Biographie</label>
+                <textarea class="form-control" id="bio" name="bio" rows="4">
+Administrateur réseau avec plus de 10 ans d'expérience dans la conception, l'implémentation et la maintenance d'infrastructures réseau pour des entreprises de toutes tailles.</textarea
+                >
+              </div>
+            </div>
+
+            <!-- Onglet Sécurité -->
+            <div class="tab-pane fade" id="security" role="tabpanel">
+              <div class="mb-3">
+                <label for="currentPassword" class="form-label"
+                  >Mot de passe actuel</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="currentPassword"
+                  name="current_password"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="newPassword" class="form-label"
+                  >Nouveau mot de passe</label
+                >
+                <input type="password" class="form-control" id="newPassword" name="newPassword" />
+              </div>
+
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label"
+                  >Confirmer le nouveau mot de passe</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  name="confirm_password"
+                />
+              </div>
+
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="twoFactorAuth"
+                  name="twoFactorAuth"
+                  checked
+                />
+                <label class="form-check-label" for="twoFactorAuth"
+                  >Authentification à deux facteurs</label
+                >
+              </div>
+
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Pour des raisons de sécurité, vous serez déconnecté après avoir
+                changé votre mot de passe.
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 border-top pt-3">
+                <button type="submit" class="btn btn-danger" id="deleteAccountBtn">
+                    <i class="fas fa-trash me-1"></i> Supprimer le compte
+                </button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+          <i class="fas fa-save me-1"></i> Enregistrer les modifications
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts pour le profil -->
+<script src="{{ url_for('static', filename='JS/profile.js') }}"></script>
+{% endblock %}

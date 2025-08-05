@@ -1,0 +1,335 @@
+{% extends "/includes/layout.html" %} {% block content %}
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2">Gestion des Alertes</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          id="exportAlertsBtn"
+        >
+          <i class="fas fa-file-export me-1"></i> Exporter
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          id="markAllAsReadBtn"
+        >
+          <i class="fas fa-check-circle me-1"></i> Tout marquer comme lu
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Statistiques des Alertes -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card border-danger mb-3">
+        <div class="card-body text-danger">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Alertes Critiques</h6>
+              <h2 class="card-text">3</h2>
+            </div>
+            <i class="fas fa-exclamation-triangle fa-3x"></i>
+          </div>
+          <a href="/alerts?severity=critical" class="text-danger small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-warning mb-3">
+        <div class="card-body text-warning">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Alertes Élevées</h6>
+              <h2 class="card-text">7</h2>
+            </div>
+            <i class="fas fa-exclamation-circle fa-3x"></i>
+          </div>
+          <a href="/alerts?severity=high" class="text-warning small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-info mb-3">
+        <div class="card-body text-info">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Alertes Non Résolues</h6>
+              <h2 class="card-text">12</h2>
+            </div>
+            <i class="fas fa-bell fa-3x"></i>
+          </div>
+          <a href="/alerts?status=unresolved" class="text-info small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-success mb-3">
+        <div class="card-body text-success">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Alertes Aujourd'hui</h6>
+              <h2 class="card-text">5</h2>
+            </div>
+            <i class="fas fa-calendar-day fa-3x"></i>
+          </div>
+          <a href="/alerts?period=today" class="text-success small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtres et Recherche -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 mb-3 mb-md-0">
+          <label for="severityFilter" class="form-label">Gravité</label>
+          <select class="form-select" id="severityFilter">
+            <option value="all">Toutes les gravités</option>
+            <option value="critical">Critique</option>
+            <option value="high">Élevée</option>
+            <option value="medium">Moyenne</option>
+            <option value="low">Faible</option>
+            <option value="info">Information</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+          <label for="statusFilter" class="form-label">Statut</label>
+          <select class="form-select" id="statusFilter">
+            <option value="all">Tous les statuts</option>
+            <option value="unresolved">Non résolues</option>
+            <option value="in-progress">En cours</option>
+            <option value="resolved">Résolues</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+          <label for="typeFilter" class="form-label">Type</label>
+          <select class="form-select" id="typeFilter">
+            <option value="all">Tous les types</option>
+            <option value="security">Sécurité</option>
+            <option value="performance">Performance</option>
+            <option value="availability">Disponibilité</option>
+            <option value="configuration">Configuration</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="searchAlertsInput" class="form-label">Recherche</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="searchAlertsInput"
+              placeholder="Rechercher..."
+            />
+            <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des Alertes -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Alertes Récentes</h5>
+      <div class="d-flex">
+        <div class="btn-group me-2">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            type="button"
+            id="refreshAlertsBtn"
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+        <div class="dropdown">
+          <button
+            class="btn btn-sm btn-outline-secondary dropdown-toggle"
+            type="button"
+            id="viewOptionsDropdown"
+            data-bs-toggle="dropdown"
+          >
+            <i class="fas fa-columns"></i> Affichage
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="#" id="compactViewBtn"
+                ><i class="fas fa-list me-1"></i> Vue compacte</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" id="detailedViewBtn"
+                ><i class="fas fa-align-left me-1"></i> Vue détaillée</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="#" id="groupByDeviceBtn"
+                ><i class="fas fa-laptop me-1"></i> Grouper par appareil</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" id="groupByTypeBtn"
+                ><i class="fas fa-tag me-1"></i> Grouper par type</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="list-group list-group-flush" id="alertsList">
+        <!-- Alerte Critique -->
+        <a
+          href="/alert/1"
+          class="list-group-item list-group-item-action alert-item alert-critical"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex align-items-center">
+              <i
+                class="fas fa-exclamation-triangle severity-icon text-danger"
+              ></i>
+              <h5 class="mb-1">Port SSH ouvert non autorisé</h5>
+            </div>
+            <small class="text-muted">Il y a 10 minutes</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">Détecté sur 192.168.1.15 (Smartphone-Jean)</p>
+            <span class="badge bg-danger">Non résolue</span>
+          </div>
+        </a>
+
+        <!-- Alerte Élevée -->
+        <a
+          href="/alert/2"
+          class="list-group-item list-group-item-action alert-item alert-high"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex align-items-center">
+              <i
+                class="fas fa-exclamation-circle severity-icon text-warning"
+              ></i>
+              <h5 class="mb-1">Utilisation CPU élevée</h5>
+            </div>
+            <small class="text-muted">Il y a 25 minutes</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">Serveur-FTP atteint 95% d'utilisation CPU</p>
+            <span class="badge bg-warning">En cours</span>
+          </div>
+        </a>
+
+        <!-- Alerte Moyenne -->
+        <a
+          href="/alert/3"
+          class="list-group-item list-group-item-action alert-item alert-medium"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-info-circle severity-icon text-info"></i>
+              <h5 class="mb-1">Nouvel appareil détecté</h5>
+            </div>
+            <small class="text-muted">Il y a 1 heure</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">192.168.1.42 (MAC: 00:1A:2B:3C:4D:5E)</p>
+            <span class="badge bg-success">Résolue</span>
+          </div>
+        </a>
+
+        <!-- Alerte Information -->
+        <a
+          href="/alert/4"
+          class="list-group-item list-group-item-action alert-item alert-info"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-info-circle severity-icon text-success"></i>
+              <h5 class="mb-1">Redémarrage planifié</h5>
+            </div>
+            <small class="text-muted">Il y a 2 heures</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">Routeur principal redémarré pour maintenance</p>
+            <span class="badge bg-success">Terminé</span>
+          </div>
+        </a>
+
+        <!-- Alerte Faible -->
+        <a
+          href="/alert/5"
+          class="list-group-item list-group-item-action alert-item alert-low"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-info-circle severity-icon text-primary"></i>
+              <h5 class="mb-1">Ping élevé détecté</h5>
+            </div>
+            <small class="text-muted">Il y a 3 heures</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">
+              Latence élevée vers 192.168.1.25 (Imprimante-Bureau)
+            </p>
+            <span class="badge bg-secondary">Ignorée</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <div class="form-text">Affichage de 1 à 5 sur 23 alertes</div>
+      <nav>
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Précédent</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          <li class="page-item"><a class="page-link" href="#">5</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Suivant</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Script alerts -->
+<script src="{{ url_for('static', filename='JS/alerts.js') }}"></script>
+
+{% endblock %}

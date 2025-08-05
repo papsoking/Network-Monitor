@@ -1,0 +1,174 @@
+{% extends "/includes/base.html" %}
+
+{% block content %}
+<div id="formulaire">
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3><i class="fas fa-network-wired me-2"></i>Network Monitor</h3>
+                <p class="mb-0">Créez votre compte</p>
+            </div>
+            
+            <div class="auth-body">
+                <form action="{{ url_for('register') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Adresse Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                        </div>
+                        <div class="password-requirements">
+                            <div class="requirement" id="lengthReq">
+                                <i class="fas fa-circle"></i>
+                                <span>8 caractères minimum</span>
+                            </div>
+                            <div class="requirement" id="numberReq">
+                                <i class="fas fa-circle"></i>
+                                <span>Au moins 1 chiffre</span>
+                            </div>
+                            <div class="requirement" id="specialReq">
+                                <i class="fas fa-circle"></i>
+                                <span>Au moins 1 caractère spécial</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        <div class="invalid-feedback" id="passwordMatchFeedback">
+                            Les mots de passe ne correspondent pas
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                        <label class="form-check-label" for="terms">
+                            J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100" id="submitBtn">S'inscrire</button>
+                </form>
+            </div>
+            
+            <div class="auth-footer">
+                <p class="mb-0">Déjà un compte ? <a href="{{ url_for('login') }}">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const confirmInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            confirmInput.type = type;
+            icon.classList.toggle('fa-eye-slash');
+            icon.classList.toggle('fa-eye');
+        });
+        
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            let strength = 0;
+            
+            // Check length
+            const lengthReq = document.getElementById('lengthReq');
+            if (password.length >= 8) {
+                strength += 25;
+                lengthReq.querySelector('i').className = 'fas fa-check-circle valid';
+            } else {
+                lengthReq.querySelector('i').className = 'fas fa-circle invalid';
+            }
+            
+            // Check for numbers
+            const numberReq = document.getElementById('numberReq');
+            if (/\d/.test(password)) {
+                strength += 25;
+                numberReq.querySelector('i').className = 'fas fa-check-circle valid';
+            } else {
+                numberReq.querySelector('i').className = 'fas fa-circle invalid';
+            }
+            
+            // Check for special chars
+            const specialReq = document.getElementById('specialReq');
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                strength += 25;
+                specialReq.querySelector('i').className = 'fas fa-check-circle valid';
+            } else {
+                specialReq.querySelector('i').className = 'fas fa-circle invalid';
+            }
+            
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                strength += 25;
+            }
+            
+            // Update strength bar
+            strengthBar.style.width = strength + '%';
+            
+            if (strength < 50) {
+                strengthBar.style.backgroundColor = '#dc3545';
+            } else if (strength < 75) {
+                strengthBar.style.backgroundColor = '#ffc107';
+            } else {
+                strengthBar.style.backgroundColor = '#28a745';
+            }
+            
+            // Check password match
+            checkPasswordMatch();
+        });
+        
+        // Password match checker
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+        
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const feedback = document.getElementById('passwordMatchFeedback');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (confirmPassword && password !== confirmPassword) {
+                document.getElementById('confirmPassword').classList.add('is-invalid');
+                submitBtn.disabled = true;
+            } else {
+                document.getElementById('confirmPassword').classList.remove('is-invalid');
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</div>
+{% endblock %}

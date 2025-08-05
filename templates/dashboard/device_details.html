@@ -1,0 +1,130 @@
+{% extends "/includes/layout.html" %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+    <div class="container-fluid">
+        <h1 class="mt-4">Détails de l'appareil</h1>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-info-circle mr-1"></i>
+                Informations générales
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Adresse IP</th>
+                                        <td>{{ device.ip }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nom d'hôte</th>
+                                        <td>{{ device.hostname }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Statut</th>
+                                        <td>
+                                            <span class="badge bg-{{ 'success' if device.status == 'online' else 'danger' }}">
+                                                {{ device.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dernière détection</th>
+                                        <td>{{ device.last_seen }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Système d'exploitation</th>
+                                        <td>{{ device.os }} ({{ device.os_accuracy }}% de précision)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Adresse MAC</th>
+                                        <td>{{ device.mac }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fabricant</th>
+                                        <td>{{ device.vendor }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type d'appareil</th>
+                                        <td>{{ device.device_type or 'Inconnu' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-network-wired mr-1"></i>
+                Ports ouverts et services
+            </div>
+            <div class="card-body">
+                {% if device.ports %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>État</th>
+                                <th>Service</th>
+                                <th>Version</th>
+                                <th>Produit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for port in device.ports %}
+                            <tr>
+                                <td>{{ port.port }}</td>
+                                <td>
+                                    <span class="badge badge-{{ 'success' if port.state == 'open' else 'secondary' }}">
+                                        {{ port.state }}
+                                    </span>
+                                </td>
+                                <td>{{ port.service }}</td>
+                                <td>{{ port.version }}</td>
+                                <td>{{ port.product }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>Aucun port ouvert détecté.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-line mr-1"></i>
+                Historique de disponibilité
+            </div>
+            <div class="card-body">
+                <canvas id="availabilityChart" width="100%" height="30"></canvas>
+            </div>
+        </div> -->
+
+        <a href="{{ url_for('devices') }}" class="btn btn-secondary my-3">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+</main>
+
+<script src="{{ url_for('static', filename='JS/device_details.js') }}"></script>
+{% endblock %}

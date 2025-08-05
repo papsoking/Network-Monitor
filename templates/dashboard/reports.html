@@ -1,0 +1,730 @@
+{% extends "/includes/layout.html" %} {% block content %}
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2">Rapports Réseau</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <button
+        type="button"
+        class="btn btn-sm btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#generateReportModal"
+      >
+        <i class="fas fa-plus me-1"></i> Générer un rapport
+      </button>
+    </div>
+  </div>
+
+  <!-- Rapports Récents -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card report-card h-100">
+        <div class="card-body">
+          <div class="report-type-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h5 class="card-title">Rapport de Sécurité</h5>
+          <p class="card-text">
+            Analyse complète des vulnérabilités et des incidents de sécurité.
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge bg-primary timeframe-badge">Mensuel</span>
+            <small class="text-muted">Généré le 28/07/2025</small>
+          </div>
+          <a href="#" class="stretched-link"></a>
+        </div>
+        <button
+          class="btn btn-sm btn-outline-secondary download-btn"
+          title="Télécharger"
+        >
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card report-card h-100">
+        <div class="card-body">
+          <div class="report-type-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <h5 class="card-title">Performance Réseau</h5>
+          <p class="card-text">
+            Statistiques de bande passante, latence et disponibilité.
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge bg-success timeframe-badge">Hebdomadaire</span>
+            <small class="text-muted">Généré le 24/07/2025</small>
+          </div>
+          <a href="#" class="stretched-link"></a>
+        </div>
+        <button
+          class="btn btn-sm btn-outline-secondary download-btn"
+          title="Télécharger"
+        >
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card report-card h-100">
+        <div class="card-body">
+          <div class="report-type-icon">
+            <i class="fas fa-laptop"></i>
+          </div>
+          <h5 class="card-title">Inventaire des Appareils</h5>
+          <p class="card-text">
+            Liste complète de tous les appareils connectés au réseau.
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge bg-info timeframe-badge">Quotidien</span>
+            <small class="text-muted">Généré le 29/07/2025</small>
+          </div>
+          <a href="#" class="stretched-link"></a>
+        </div>
+        <button
+          class="btn btn-sm btn-outline-secondary download-btn"
+          title="Télécharger"
+        >
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphiques des Rapports -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="reportTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="bandwidth-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#bandwidth"
+            type="button"
+          >
+            Bande passante
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="devices-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#devices"
+            type="button"
+          >
+            Appareils
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="security-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#security"
+            type="button"
+          >
+            Sécurité
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="alerts-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#alerts"
+            type="button"
+          >
+            Alertes
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="reportTabsContent">
+        <!-- Onglet Bande Passante -->
+        <div class="tab-pane fade show active" id="bandwidth" role="tabpanel">
+          <div class="chart-container">
+            <canvas id="bandwidthChart"></canvas>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Statistiques Clés</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th>Bande passante moyenne</th>
+                      <td>45.2 Mbps</td>
+                    </tr>
+                    <tr>
+                      <th>Pic de trafic</th>
+                      <td>89.7 Mbps (28/07 à 14:30)</td>
+                    </tr>
+                    <tr>
+                      <th>Utilisation moyenne</th>
+                      <td>62%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h5>Top Applications</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Application</th>
+                      <th>Utilisation</th>
+                      <th>% du total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>HTTP/HTTPS</td>
+                      <td>32.4 Mbps</td>
+                      <td>42%</td>
+                    </tr>
+                    <tr>
+                      <td>Video Streaming</td>
+                      <td>18.7 Mbps</td>
+                      <td>24%</td>
+                    </tr>
+                    <tr>
+                      <td>Cloud Backup</td>
+                      <td>12.3 Mbps</td>
+                      <td>16%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Onglet Appareils -->
+        <div class="tab-pane fade" id="devices" role="tabpanel">
+          <div class="chart-container">
+            <canvas id="devicesChart"></canvas>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <h5>Répartition par Type</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th>Ordinateurs</th>
+                      <td>24</td>
+                      <td>38%</td>
+                    </tr>
+                    <tr>
+                      <th>Appareils mobiles</th>
+                      <td>18</td>
+                      <td>29%</td>
+                    </tr>
+                    <tr>
+                      <th>Serveurs</th>
+                      <td>5</td>
+                      <td>8%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h5>Activité des Appareils</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Appareil</th>
+                      <th>Activité</th>
+                      <th>Statut</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>PC-Admin</td>
+                      <td>Élevée</td>
+                      <td><span class="badge bg-success">En ligne</span></td>
+                    </tr>
+                    <tr>
+                      <td>Serveur-FTP</td>
+                      <td>Moyenne</td>
+                      <td><span class="badge bg-success">En ligne</span></td>
+                    </tr>
+                    <tr>
+                      <td>Imprimante-Bureau</td>
+                      <td>Faible</td>
+                      <td>
+                        <span class="badge bg-secondary">Hors ligne</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Onglet Sécurité -->
+        <div class="tab-pane fade" id="security" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="chart-container">
+                <canvas id="securityChart"></canvas>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h5>Résumé de Sécurité</h5>
+              <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>2 vulnérabilités critiques</strong> nécessitent une
+                attention immédiate.
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th>Ports ouverts non autorisés</th>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <th>Appareils non patchés</th>
+                      <td>7</td>
+                    </tr>
+                    <tr>
+                      <th>Tentatives de connexion suspectes</th>
+                      <td>12</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Onglet Alertes -->
+        <div class="tab-pane fade" id="alerts" role="tabpanel">
+          <div class="chart-container">
+            <canvas id="alertsChart"></canvas>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <h5>Répartition des Alertes</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th>Critiques</th>
+                      <td>3</td>
+                      <td>8%</td>
+                    </tr>
+                    <tr>
+                      <th>Élevées</th>
+                      <td>7</td>
+                      <td>19%</td>
+                    </tr>
+                    <tr>
+                      <th>Moyennes</th>
+                      <td>15</td>
+                      <td>41%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h5>Temps de Résolution</h5>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th>Moyenne (toutes alertes)</th>
+                      <td>4h 23m</td>
+                    </tr>
+                    <tr>
+                      <th>Moyenne (critiques)</th>
+                      <td>1h 12m</td>
+                    </tr>
+                    <tr>
+                      <th>Plus longue non résolue</th>
+                      <td>2 jours</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historique des Rapports -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Historique des Rapports</h5>
+      <div class="dropdown">
+        <button
+          class="btn btn-sm btn-outline-secondary dropdown-toggle"
+          type="button"
+          id="historyFilterDropdown"
+          data-bs-toggle="dropdown"
+        >
+          <i class="fas fa-filter me-1"></i> Filtre
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Tous les rapports</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item" href="#">Sécurité</a></li>
+          <li><a class="dropdown-item" href="#">Performance</a></li>
+          <li><a class="dropdown-item" href="#">Appareils</a></li>
+          <li><a class="dropdown-item" href="#">Alertes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Période</th>
+              <th>Date de génération</th>
+              <th>Taille</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rapport de Sécurité Juillet</td>
+              <td><span class="badge bg-danger">Sécurité</span></td>
+              <td>01/07 - 31/07</td>
+              <td>28/07/2025 18:45</td>
+              <td>2.4 MB</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Voir"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-secondary me-1"
+                  title="Télécharger"
+                >
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Performance Hebdomadaire</td>
+              <td><span class="badge bg-success">Performance</span></td>
+              <td>17/07 - 23/07</td>
+              <td>24/07/2025 09:30</td>
+              <td>1.7 MB</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Voir"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-secondary me-1"
+                  title="Télécharger"
+                >
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Inventaire des Appareils</td>
+              <td><span class="badge bg-info">Appareils</span></td>
+              <td>29/07</td>
+              <td>29/07/2025 08:15</td>
+              <td>1.2 MB</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Voir"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-secondary me-1"
+                  title="Télécharger"
+                >
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Analyse des Alertes Juin</td>
+              <td><span class="badge bg-warning">Alertes</span></td>
+              <td>01/06 - 30/06</td>
+              <td>01/07/2025 10:20</td>
+              <td>3.1 MB</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Voir"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-secondary me-1"
+                  title="Télécharger"
+                >
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <div class="form-text">Affichage de 1 à 4 sur 12 rapports</div>
+      <nav>
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Précédent</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Suivant</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Modal Génération de Rapport -->
+<div
+  class="modal fade"
+  id="generateReportModal"
+  tabindex="-1"
+  aria-labelledby="generateReportModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="generateReportModalLabel">
+          Générer un Nouveau Rapport
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="generateReportForm">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="reportType" class="form-label">Type de rapport</label>
+              <select class="form-select" id="reportType" required>
+                <option value="">Sélectionner un type</option>
+                <option value="security">Sécurité</option>
+                <option value="performance">Performance</option>
+                <option value="devices">Appareils</option>
+                <option value="alerts">Alertes</option>
+                <option value="custom">Personnalisé</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="reportTimeframe" class="form-label">Période</label>
+              <select class="form-select" id="reportTimeframe" required>
+                <option value="today">Aujourd'hui</option>
+                <option value="yesterday">Hier</option>
+                <option value="week">Cette semaine</option>
+                <option value="month">Ce mois</option>
+                <option value="quarter">Ce trimestre</option>
+                <option value="custom">Période personnalisée</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3" id="customDateRange" style="display: none">
+            <div class="col-md-6">
+              <label for="reportStartDate" class="form-label"
+                >Date de début</label
+              >
+              <input type="date" class="form-control" id="reportStartDate" />
+            </div>
+            <div class="col-md-6">
+              <label for="reportEndDate" class="form-label">Date de fin</label>
+              <input type="date" class="form-control" id="reportEndDate" />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="reportFormat" class="form-label">Format</label>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="reportFormat"
+                id="formatPDF"
+                value="pdf"
+                checked
+              />
+              <label class="form-check-label" for="formatPDF">
+                PDF (Recommandé)
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="reportFormat"
+                id="formatCSV"
+                value="csv"
+              />
+              <label class="form-check-label" for="formatCSV">
+                CSV (Données brutes)
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="reportFormat"
+                id="formatHTML"
+                value="html"
+              />
+              <label class="form-check-label" for="formatHTML">
+                HTML (Interactive)
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="reportSections" class="form-label"
+              >Sections à inclure</label
+            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="includeSummary"
+                checked
+              />
+              <label class="form-check-label" for="includeSummary">
+                Résumé exécutif
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="includeCharts"
+                checked
+              />
+              <label class="form-check-label" for="includeCharts">
+                Graphiques et visualisations
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="includeDetails"
+                checked
+              />
+              <label class="form-check-label" for="includeDetails">
+                Détails techniques
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="includeRecommendations"
+              />
+              <label class="form-check-label" for="includeRecommendations">
+                Recommandations
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="reportName" class="form-label">Nom du rapport</label>
+            <input
+              type="text"
+              class="form-control"
+              id="reportName"
+              placeholder="Ex: Rapport de Sécurité Juillet 2025"
+            />
+          </div>
+
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="scheduleReport"
+            />
+            <label class="form-check-label" for="scheduleReport"
+              >Planifier ce rapport récurrent</label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="generateReportBtn">
+          <i class="fas fa-cog me-1"></i> Générer le rapport
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script reports -->
+<script src="{{ url_for('static', filename='JS/reports.js') }}"></script>
+{% endblock %}

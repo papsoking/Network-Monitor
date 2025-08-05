@@ -1,0 +1,690 @@
+{% extends "/includes/layout.html" %} {% block content %}
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2"><i class="fas fa-cog settings-icon"></i>Paramètres</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">
+          <i class="fas fa-history me-1"></i> Historique des modifications
+        </button>
+      </div>
+      <button type="button" class="btn btn-sm btn-primary">
+        <i class="fas fa-save me-1"></i> Enregistrer les modifications
+      </button>
+    </div>
+  </div>
+
+  <!-- Paramètres Généraux -->
+  <div class="settings-section">
+    <div class="card settings-card mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <i class="fas fa-sliders-h settings-icon"></i>Paramètres Généraux
+        </h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="timezone" class="form-label">Fuseau horaire</label>
+              <select class="form-select" id="timezone">
+                <option value="Europe/Paris" selected>
+                  Europe/Paris (UTC+2)
+                </option>
+                <option value="Europe/London">Europe/London (UTC+1)</option>
+                <option value="America/New_York">
+                  America/New_York (UTC-4)
+                </option>
+                <option value="Asia/Tokyo">Asia/Tokyo (UTC+9)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="language" class="form-label">Langue</label>
+              <select class="form-select" id="language">
+                <option value="fr" selected>Français</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="de">Deutsch</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="dateFormat" class="form-label">Format de date</label>
+              <select class="form-select" id="dateFormat">
+                <option value="dd/MM/yyyy" selected>
+                  JJ/MM/AAAA (24/07/2025)
+                </option>
+                <option value="MM/dd/yyyy">MM/JJ/AAAA (07/24/2025)</option>
+                <option value="yyyy-MM-dd">AAAA-MM-JJ (2025-07-24)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="timeFormat" class="form-label">Format d'heure</label>
+              <select class="form-select" id="timeFormat">
+                <option value="24" selected>24 heures (14:30)</option>
+                <option value="12">12 heures (2:30 PM)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="theme" class="form-label">Thème</label>
+            <select class="form-select" id="theme">
+              <option value="light" selected>Clair</option>
+              <option value="dark">Sombre</option>
+              <option value="system">Système</option>
+            </select>
+          </div>
+
+          <div class="form-check form-switch mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="autoRefresh"
+              checked
+            />
+            <label class="form-check-label" for="autoRefresh"
+              >Actualisation automatique des données</label
+            >
+          </div>
+
+          <div class="form-check form-switch mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="showAlerts"
+              checked
+            />
+            <label class="form-check-label" for="showAlerts"
+              >Afficher les alertes non lues dans la barre de navigation</label
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paramètres de Notification -->
+  <div class="settings-section">
+    <div class="card settings-card mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <i class="fas fa-bell settings-icon"></i>Paramètres de Notification
+        </h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <h6 class="mb-3">Méthodes de notification</h6>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="emailNotifications"
+                  checked
+                />
+                <label class="form-check-label" for="emailNotifications"
+                  >Email</label
+                >
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="pushNotifications"
+                  checked
+                />
+                <label class="form-check-label" for="pushNotifications"
+                  >Notifications push</label
+                >
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="smsNotifications"
+                />
+                <label class="form-check-label" for="smsNotifications"
+                  >SMS</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="notificationEmail" class="form-label"
+              >Email de notification</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="notificationEmail"
+              value="admin@example.com"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="notificationPhone" class="form-label"
+              >Téléphone pour SMS</label
+            >
+            <input
+              type="tel"
+              class="form-control"
+              id="notificationPhone"
+              placeholder="+33 6 12 34 56 78"
+            />
+          </div>
+
+          <h6 class="mb-3">Seuils d'alerte</h6>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="cpuThreshold" class="form-label">Seuil CPU (%)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="cpuThreshold"
+                value="90"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="memoryThreshold" class="form-label"
+                >Seuil mémoire (%)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="memoryThreshold"
+                value="85"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="bandwidthThreshold" class="form-label"
+                >Seuil bande passante (%)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="bandwidthThreshold"
+                value="80"
+                min="0"
+                max="100"
+              />
+            </div>
+          </div>
+
+          <h6 class="mb-3">Types d'alertes</h6>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="criticalAlerts"
+                  checked
+                />
+                <label class="form-check-label" for="criticalAlerts"
+                  >Alertes critiques</label
+                >
+              </div>
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="warningAlerts"
+                  checked
+                />
+                <label class="form-check-label" for="warningAlerts"
+                  >Alertes d'avertissement</label
+                >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="deviceAlerts"
+                  checked
+                />
+                <label class="form-check-label" for="deviceAlerts"
+                  >Alertes appareil</label
+                >
+              </div>
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="securityAlerts"
+                  checked
+                />
+                <label class="form-check-label" for="securityAlerts"
+                  >Alertes de sécurité</label
+                >
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intégrations -->
+  <div class="settings-section">
+    <div class="card settings-card mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <i class="fas fa-plug settings-icon"></i>Intégrations
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Slack -->
+          <div class="col-md-6 mb-4">
+            <div class="card integration-card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png"
+                    alt="Slack"
+                    class="integration-logo"
+                  />
+                  <h5 class="mb-0">Slack</h5>
+                </div>
+                <p class="card-text">
+                  Recevez des notifications directement dans vos canaux Slack.
+                </p>
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="slackIntegration"
+                  />
+                  <label class="form-check-label" for="slackIntegration"
+                    >Activer l'intégration</label
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="slackWebhook" class="form-label"
+                    >URL Webhook Slack</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="slackWebhook"
+                    placeholder="https://hooks.slack.com/services/..."
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="slackChannel" class="form-label"
+                    >Canal Slack</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="slackChannel"
+                    placeholder="#network-alerts"
+                  />
+                </div>
+                <button class="btn btn-sm btn-outline-primary">
+                  Tester la connexion
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Microsoft Teams -->
+          <div class="col-md-6 mb-4">
+            <div class="card integration-card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Teams_%282018%E2%80%93present%29.svg.png"
+                    alt="Microsoft Teams"
+                    class="integration-logo"
+                  />
+                  <h5 class="mb-0">Microsoft Teams</h5>
+                </div>
+                <p class="card-text">
+                  Envoyez des alertes à votre équipe via Microsoft Teams.
+                </p>
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="teamsIntegration"
+                  />
+                  <label class="form-check-label" for="teamsIntegration"
+                    >Activer l'intégration</label
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="teamsWebhook" class="form-label"
+                    >URL Webhook Teams</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="teamsWebhook"
+                    placeholder="https://outlook.office.com/webhook/..."
+                  />
+                </div>
+                <button class="btn btn-sm btn-outline-primary">
+                  Tester la connexion
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PagerDuty -->
+          <div class="col-md-6 mb-4">
+            <div class="card integration-card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PagerDuty_Logo.png/640px-PagerDuty_Logo.png"
+                    alt="PagerDuty"
+                    class="integration-logo"
+                  />
+                  <h5 class="mb-0">PagerDuty</h5>
+                </div>
+                <p class="card-text">
+                  Intégration avec PagerDuty pour la gestion des incidents.
+                </p>
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="pagerdutyIntegration"
+                  />
+                  <label class="form-check-label" for="pagerdutyIntegration"
+                    >Activer l'intégration</label
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="pagerdutyApiKey" class="form-label"
+                    >Clé API PagerDuty</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="pagerdutyApiKey"
+                    placeholder="••••••••••••"
+                  />
+                </div>
+                <button class="btn btn-sm btn-outline-primary">
+                  Tester la connexion
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Webhook personnalisé -->
+          <div class="col-md-6 mb-4">
+            <div class="card integration-card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <i class="fas fa-code integration-logo"></i>
+                  <h5 class="mb-0">Webhook personnalisé</h5>
+                </div>
+                <p class="card-text">
+                  Configurez un webhook personnalisé pour envoyer des données à
+                  d'autres systèmes.
+                </p>
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="customWebhookIntegration"
+                  />
+                  <label class="form-check-label" for="customWebhookIntegration"
+                    >Activer l'intégration</label
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="customWebhookUrl" class="form-label"
+                    >URL Webhook</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="customWebhookUrl"
+                    placeholder="https://votre-domaine.com/webhook"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="customWebhookSecret" class="form-label"
+                    >Secret (optionnel)</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="customWebhookSecret"
+                    placeholder="••••••••••••"
+                  />
+                </div>
+                <button class="btn btn-sm btn-outline-primary">
+                  Tester la connexion
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paramètres Avancés -->
+  <div class="settings-section">
+    <div class="card settings-card mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0">
+          <i class="fas fa-cogs settings-icon"></i>Paramètres Avancés
+        </h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="dataRetention" class="form-label"
+              >Rétention des données (jours)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="dataRetention"
+              value="365"
+              min="1"
+              max="1095"
+            />
+            <div class="form-text">
+              Durée de conservation des données historiques (1-1095 jours)
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="backupSchedule" class="form-label"
+              >Planification des sauvegardes</label
+            >
+            <select class="form-select" id="backupSchedule">
+              <option value="daily">Quotidienne</option>
+              <option value="weekly" selected>Hebdomadaire</option>
+              <option value="monthly">Mensuelle</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="backupLocation" class="form-label"
+              >Emplacement de sauvegarde</label
+            >
+            <select class="form-select" id="backupLocation">
+              <option value="local" selected>Local</option>
+              <option value="s3">Amazon S3</option>
+              <option value="azure">Azure Blob Storage</option>
+              <option value="google">Google Cloud Storage</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="apiAccess" class="form-label">Accès API</label>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="apiAccess"
+                checked
+              />
+              <label class="form-check-label" for="apiAccess"
+                >Activer l'accès API</label
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="apiKey" class="form-label">Clé API</label>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="apiKey"
+                value="nm_1234567890abcdef"
+                readonly
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="copyApiKey"
+              >
+                <i class="fas fa-copy"></i>
+              </button>
+              <button
+                class="btn btn-outline-danger"
+                type="button"
+                id="regenerateApiKey"
+              >
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
+            <div class="form-text">
+              Gardez cette clé secrète. Elle permet un accès complet à votre
+              système.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="logLevel" class="form-label"
+              >Niveau de journalisation</label
+            >
+            <select class="form-select" id="logLevel">
+              <option value="error">Erreur</option>
+              <option value="warning">Avertissement</option>
+              <option value="info" selected>Information</option>
+              <option value="debug">Débogage</option>
+            </select>
+          </div>
+
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Attention:</strong> Les modifications dans cette section
+            peuvent affecter le fonctionnement de votre système.
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#resetSettingsModal"
+          >
+            <i class="fas fa-undo me-1"></i> Réinitialiser les paramètres
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Modal Réinitialisation des Paramètres -->
+<div
+  class="modal fade"
+  id="resetSettingsModal"
+  tabindex="-1"
+  aria-labelledby="resetSettingsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="resetSettingsModalLabel">
+          Confirmer la réinitialisation
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Êtes-vous sûr de vouloir réinitialiser tous les paramètres aux valeurs
+          par défaut ?
+        </p>
+        <p class="text-danger">
+          <strong>Cette action ne peut pas être annulée.</strong> Toutes vos
+          configurations personnalisées seront perdues.
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="confirmReset" />
+          <label class="form-check-label" for="confirmReset">
+            Je comprends que cette action est irréversible
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          id="confirmResetBtn"
+          disabled
+        >
+          <i class="fas fa-undo me-1"></i> Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts pour les paramètres -->
+<script src="{{ url_for('static', filename='JS/settings.js') }}"></script>
+{% endblock %}

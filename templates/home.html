@@ -1,0 +1,409 @@
+{% extends "/includes/base.html" %} {% block content %}
+<div class="">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-4">
+        Surveillance Complète de Votre Réseau
+      </h1>
+      <p class="lead mb-5">
+        Détection automatique des appareils, analyse des performances et alertes
+        en temps réel
+      </p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-4"
+          >Se connecter</a
+        >
+        <a href="#features" class="btn btn-outline-light btn-lg px-4"
+          >En savoir plus</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Fonctionnalités Puissantes</h2>
+        <p class="text-muted">
+          Tout ce dont vous avez besoin pour gérer votre réseau efficacement
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3>Détection Automatique</h3>
+            <p class="text-muted">
+              Identification de tous les appareils connectés à votre réseau avec
+              leurs caractéristiques techniques.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Analyse en Temps Réel</h3>
+            <p class="text-muted">
+              Surveillance des performances réseau avec des graphiques et
+              statistiques détaillées.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <h3>Alertes Intelligentes</h3>
+            <p class="text-muted">
+              Notifications instantanées pour les appareils non autorisés ou les
+              anomalies réseau.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Sécurité Renforcée</h3>
+            <p class="text-muted">
+              Détection des vulnérabilités et des ports ouverts potentiellement
+              dangereux.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-history"></i>
+            </div>
+            <h3>Historique Complet</h3>
+            <p class="text-muted">
+              Archivage des données pour analyse des tendances et rapports
+              personnalisés.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Accès Mobile</h3>
+            <p class="text-muted">
+              Interface responsive accessible depuis n'importe quel appareil.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Preview -->
+  <section id="screenshots" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Aperçu du Tableau de Bord</h2>
+        <p class="text-muted">
+          Découvrez l'interface intuitive de Network Monitor
+        </p>
+      </div>
+
+      <div class="text-center">
+        <img
+          src="{{url_for('static', filename='/images/image.png')}}"
+          alt="Aperçu du tableau de bord"
+          class="img-fluid dashboard-preview"
+        />
+        <div class="mt-4">
+          <a
+            href="{{ url_for('login') }}"
+            class="btn btn-primary btn-lg px-4 me-2"
+            >Essayer maintenant</a
+          >
+          <a href="#contact" class="btn btn-outline-primary btn-lg px-4"
+            >Nous contacter</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Ils nous font confiance</h2>
+        <p class="text-muted">
+          Découvrez ce que nos utilisateurs pensent de Network Monitor
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                class="rounded-circle me-3"
+                width="60"
+                alt="Jean D."
+              />
+              <div>
+                <h5 class="mb-0">Jean D.</h5>
+                <small class="text-muted">Administrateur réseau</small>
+              </div>
+            </div>
+            <p class="mb-0">
+              "Network Monitor a révolutionné notre façon de gérer le parc
+              informatique. La détection automatique nous fait gagner un temps
+              précieux."
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img
+                src="https://randomuser.me/api/portraits/women/44.jpg"
+                class="rounded-circle me-3"
+                width="60"
+                alt="Sophie M."
+              />
+              <div>
+                <h5 class="mb-0">Sophie M.</h5>
+                <small class="text-muted">Responsable IT</small>
+              </div>
+            </div>
+            <p class="mb-0">
+              "Les alertes en temps réel nous ont permis de détecter plusieurs
+              intrusions potentielles. Un outil indispensable pour la sécurité."
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img
+                src="https://randomuser.me/api/portraits/men/75.jpg"
+                class="rounded-circle me-3"
+                width="60"
+                alt="Pierre L."
+              />
+              <div>
+                <h5 class="mb-0">Pierre L.</h5>
+                <small class="text-muted">Directeur technique</small>
+              </div>
+            </div>
+            <p class="mb-0">
+              "L'interface est tellement intuitive que même nos équipes non
+              techniques peuvent l'utiliser. Les rapports sont très complets."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Prêt à prendre le contrôle de votre réseau ?</h2>
+      <p class="lead mb-5">
+        Rejoignez des centaines d'administrateurs qui utilisent déjà Network
+        Monitor
+      </p>
+      <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-5"
+        >Commencer l'essai gratuit</a
+      >
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h2 class="fw-bold mb-4">Contactez-nous</h2>
+          <p class="text-muted mb-4">
+            Vous avez des questions ou besoin d'une démonstration ? Notre équipe
+            est là pour vous aider.
+          </p>
+
+          <div class="d-flex mb-3">
+            <i class="fas fa-envelope me-3 mt-1 text-primary"></i>
+            <div>
+              <h5 class="mb-0">Email</h5>
+              <p class="text-muted mb-0">contact@networkmonitor.com</p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-3">
+            <i class="fas fa-phone me-3 mt-1 text-primary"></i>
+            <div>
+              <h5 class="mb-0">Téléphone</h5>
+              <p class="text-muted mb-0">+33 1 23 45 67 89</p>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <i class="fas fa-map-marker-alt me-3 mt-1 text-primary"></i>
+            <div>
+              <h5 class="mb-0">Adresse</h5>
+              <p class="text-muted mb-0">
+                123 Rue du Réseau, 75000 Paris, France
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card p-4">
+            <h4 class="mb-4">Envoyez-nous un message</h4>
+            <form>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Votre nom"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Votre email"
+                />
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Sujet" />
+              </div>
+              <div class="mb-3">
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  placeholder="Votre message"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h5 class="mb-3">
+            <i class="fas fa-network-wired me-2"></i>Network Monitor
+          </h5>
+          <p class="text-muted">
+            La solution complète pour la surveillance et la sécurité de votre
+            réseau informatique.
+          </p>
+        </div>
+
+        <div class="col-md-2 mb-4 mb-md-0">
+          <h5 class="mb-3">Liens</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <a href="#features" class="text-white text-decoration-none"
+                >Fonctionnalités</a
+              >
+            </li>
+            <li class="mb-2">
+              <a href="#screenshots" class="text-white text-decoration-none"
+                >Aperçu</a
+              >
+            </li>
+            <li class="mb-2">
+              <a href="#contact" class="text-white text-decoration-none"
+                >Contact</a
+              >
+            </li>
+            <li class="mb-2">
+              <a
+                href="{{ url_for('login') }}"
+                class="text-white text-decoration-none"
+                >Connexion</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-2 mb-4 mb-md-0">
+          <h5 class="mb-3">Légal</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <a href="#" class="text-white text-decoration-none">CGU</a>
+            </li>
+            <li class="mb-2">
+              <a href="#" class="text-white text-decoration-none"
+                >Confidentialité</a
+              >
+            </li>
+            <li class="mb-2">
+              <a href="#" class="text-white text-decoration-none">Cookies</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="mb-3">Newsletter</h5>
+          <p class="text-muted mb-3">
+            Abonnez-vous pour recevoir les dernières actualités.
+          </p>
+          <div class="input-group">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Votre email"
+            />
+            <button class="btn btn-primary" type="button">S'abonner</button>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      >
+        <p class="mb-3 mb-md-0 text-muted">
+          © 2025 Network Monitor. Tous droits réservés.
+        </p>
+        <div>
+          <a href="#" class="text-white me-3"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white me-3"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a href="#" class="text-white"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+{% endblock %}

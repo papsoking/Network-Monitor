@@ -1,0 +1,353 @@
+{% extends "/includes/layout.html" %} {% block content %}
+
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h1 class="h2">Gestion des Appareils</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          id="exportBtn"
+        >
+          <i class="fas fa-file-export me-1"></i> Exporter
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          id="scanBtn"
+        >
+          <i class="fas fa-sync-alt me-1"></i> Nouveau Scan
+        </button>
+      </div>
+      <!-- <div class="dropdown">
+        <button
+          class="btn btn-sm btn-primary dropdown-toggle"
+          type="button"
+          id="addDeviceDropdown"
+          data-bs-toggle="dropdown"
+        >
+          <i class="fas fa-plus me-1"></i> Ajouter
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#addDeviceModal"
+            >
+              <i class="fas fa-laptop me-1"></i> Appareil manuel
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#importDevicesModal"
+            >
+              <i class="fas fa-file-import me-1"></i> Importer liste
+            </a>
+          </li>
+        </ul>
+      </div> -->
+    </div>
+  </div>
+  <!-- Filtres et Recherche -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <label for="statusFilter" class="form-label">Statut</label>
+          <select class="form-select" id="statusFilter">
+            <option value="all">Tous les statuts</option>
+            <option value="online">En ligne</option>
+            <option value="offline">Hors ligne</option>
+            <!-- <option value="restricted">Accès restreint</option> -->
+          </select>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <label for="typeFilter" class="form-label">Type</label>
+          <select class="form-select" id="typeFilter">
+            <option value="all">Tous les types</option>
+            <option value="computer">Ordinateur</option>
+            <option value="mobile">Mobile</option>
+            <option value="server">Serveur</option>
+            <option value="iot">IoT</option>
+            <option value="printer">Imprimante</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="searchInput" class="form-label">Recherche</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="searchInput"
+              placeholder="Nom, IP, MAC..."
+            />
+            <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Liste des Appareils -->
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0" id="devicesTable">
+          <thead class="table-light">
+            <tr>
+              <!-- <th width="40">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="selectAll"
+                />
+              </th> -->
+              <th>Nom</th>
+              <th>Adresse IP</th>
+              <th>Adresse MAC</th>
+              <th>Fabricant</th>
+              <th>Type</th>
+              <th>Statut</th>
+              <th>Dernière activité</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="devicesTableBody">
+            <!-- Les lignes seront injectées ici dynamiquement -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <!-- <div class="form-text">Affichage de 1 à 5 sur 24 appareils</div>
+      <nav>
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Précédent</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Suivant</a>
+          </li>
+        </ul>
+      </nav> -->
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+<!-- Modal Ajout d'Appareil -->
+<div
+  class="modal fade"
+  id="addDeviceModal"
+  tabindex="-1"
+  aria-labelledby="addDeviceModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDeviceModalLabel">
+          Ajouter un Appareil
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="addDeviceForm">
+          <div class="mb-3">
+            <label for="deviceName" class="form-label">Nom de l'appareil</label>
+            <input type="text" class="form-control" id="deviceName" required />
+          </div>
+          <div class="mb-3">
+            <label for="deviceIP" class="form-label">Adresse IP</label>
+            <input
+              type="text"
+              class="form-control"
+              id="deviceIP"
+              placeholder="192.168.1.x"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="deviceMAC" class="form-label"
+              >Adresse MAC (optionnel)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="deviceMAC"
+              placeholder="00:1A:2B:3C:4D:5E"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="deviceType" class="form-label">Type d'appareil</label>
+            <select class="form-select" id="deviceType" required>
+              <option value="">Sélectionner un type</option>
+              <option value="computer">Ordinateur</option>
+              <option value="mobile">Mobile</option>
+              <option value="server">Serveur</option>
+              <option value="printer">Imprimante</option>
+              <option value="iot">Appareil IoT</option>
+              <option value="other">Autre</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="deviceVendor" class="form-label"
+              >Fabricant (optionnel)</label
+            >
+            <input type="text" class="form-control" id="deviceVendor" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="saveDeviceBtn">
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Import d'Appareils -->
+<div
+  class="modal fade"
+  id="importDevicesModal"
+  tabindex="-1"
+  aria-labelledby="importDevicesModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importDevicesModalLabel">
+          Importer des Appareils
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="importFile" class="form-label">Fichier CSV</label>
+          <input
+            class="form-control"
+            type="file"
+            id="importFile"
+            accept=".csv"
+          />
+          <div class="form-text">
+            Format attendu : Nom, Adresse IP, Adresse MAC, Type, Fabricant
+          </div>
+        </div>
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          Vous pouvez télécharger un <a href="#">modèle de fichier CSV</a> pour
+          vous aider.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary" id="importDevicesBtn">
+          Importer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulaire d'édition d'appareil -->
+<div class="modal fade" id="editDeviceModal" tabindex="-1" aria-labelledby="editDeviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDeviceModalLabel">Modifier l'appareil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="deviceForm">
+                    <input type="hidden" id="deviceId" name="device_id">
+                    <div class="mb-3">
+                        <label for="hostname" class="form-label">Nom d'hôte</label>
+                        <input type="text" class="form-control" id="hostname" name="hostname" placeholder="Nom de l'appareil" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ip" class="form-label">Adresse IP</label>
+                        <input type="text" class="form-control" id="ip" name="ip" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mac" class="form-label">Adresse MAC</label>
+                        <input type="text" class="form-control" id="mac" name="mac" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ip" class="form-label">Fabricant</label>
+                        <input type="text" class="form-control" id="vendor" name="vendor" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mac" class="form-label">Type</label>
+                        <input type="text" class="form-control" id="device_type" name="device_type" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Autorisation</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="authorization" id="authorized" value="authorized">
+                            <label class="form-check-label" for="authorized">
+                                Autorisé
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="authorization" id="unauthorized" value="unauthorized">
+                            <label class="form-check-label" for="unauthorized">
+                                Non autorisé
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveDeviceBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script devices -->
+<script src="{{ url_for('static', filename='JS/devices.js') }}"></script>
+{% endblock %}

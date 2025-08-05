@@ -1,0 +1,260 @@
+{% extends "/includes/layout.html" %} {% block content %}
+
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 50px">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+  <div class="alert alert-{{ category }} mb-0">{{ message }}</div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <!-- <h2 class="h2 w-100">Bienvenu(e) {{ user_firstname }} {{ user_lastname }}</h2> -->
+    <h1 class="h2">Tableau de Bord</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">
+          Exporter
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">
+          Imprimer
+        </button>
+      </div>
+      <button type="button" class="btn btn-sm btn-primary">
+        <i class="fas fa-sync-alt me-1"></i> Actualiser
+      </button>
+    </div>
+  </div>
+
+  <!-- Cartes de Statistiques -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Appareils Enregistrés</h6>
+              <h2 class="card-text" id="total-devices"></h2>
+            </div>
+            <i class="fas fa-laptop fa-3x"></i>
+          </div>
+          <a href="/devices" class="text-white small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Appareils Actifs</h6>
+              <h2 class="card-text" id="online-devices"></h2>
+            </div>
+            <i class="fas fa-check-circle fa-3x"></i>
+          </div>
+          <a href="/devices?status=active" class="text-white small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Alertes</h6>
+              <h2 class="card-text" id="devicesAlerts"></h2>
+            </div>
+            <i class="fas fa-exclamation-triangle fa-3x"></i>
+          </div>
+          <a href="/alerts" class="text-white small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-danger mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-title">Menaces</h6>
+              <h2 class="card-text">0</h2>
+            </div>
+            <i class="fas fa-shield-alt fa-3x"></i>
+          </div>
+          <a href="/security" class="text-white small"
+            >Voir détails <i class="fas fa-arrow-right ms-1"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphiques -->
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Activité Réseau</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="networkActivityChart" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Types d'Appareils</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="deviceTypesChart" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dernières Alertes -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Dernières Alertes</h5>
+      <a href="/alerts" class="btn btn-sm btn-outline-primary">Voir toutes</a>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Appareil</th>
+              <th>Description</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10 min ago</td>
+              <td><span class="badge bg-danger">Sécurité</span></td>
+              <td>192.168.1.15</td>
+              <td>Port SSH ouvert détecté</td>
+              <td><span class="badge bg-warning">Non traité</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>25 min ago</td>
+              <td><span class="badge bg-warning">Performance</span></td>
+              <td>Serveur-FTP</td>
+              <td>Utilisation CPU élevée (95%)</td>
+              <td><span class="badge bg-info">En cours</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>1h ago</td>
+              <td><span class="badge bg-primary">Connexion</span></td>
+              <td>192.168.1.42</td>
+              <td>Nouvel appareil détecté</td>
+              <td><span class="badge bg-success">Résolu</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2h ago</td>
+              <td><span class="badge bg-secondary">Maintenance</span></td>
+              <td>Routeur Principal</td>
+              <td>Redémarrage planifié</td>
+              <td><span class="badge bg-success">Terminé</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Détails</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appareils Récemment Connectés -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Appareils Récemment Connectés</h5>
+      <a href="/devices" class="btn btn-sm btn-outline-primary">Voir tous</a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-laptop fa-3x mb-3 text-primary"></i>
+              <h6>PC-Admin</h6>
+              <p class="text-muted small mb-1">192.168.1.10</p>
+              <span class="badge bg-success">En ligne</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-mobile-alt fa-3x mb-3 text-info"></i>
+              <h6>Smartphone-Jean</h6>
+              <p class="text-muted small mb-1">192.168.1.15</p>
+              <span class="badge bg-success">En ligne</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-server fa-3x mb-3 text-secondary"></i>
+              <h6>Serveur-FTP</h6>
+              <p class="text-muted small mb-1">192.168.1.20</p>
+              <span class="badge bg-warning">Problème</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-print fa-3x mb-3 text-warning"></i>
+              <h6>Imprimante-Bureau</h6>
+              <p class="text-muted small mb-1">192.168.1.25</p>
+              <span class="badge bg-danger">Hors ligne</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <span class="text-muted"
+            >&copy; 2025 Network Monitor. Tous droits réservés.</span
+          >
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="text-muted">Version 1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Scripts pour les graphiques -->
+<script src="{{ url_for('static', filename='JS/dashboard.js') }}"></script>
+
+{% endblock %}
