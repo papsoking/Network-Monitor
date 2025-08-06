@@ -30,6 +30,7 @@ devices_lock = Lock()
 try:
     conn = mysql.connector.connect(
         host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME")
@@ -909,6 +910,7 @@ def create_device():
         try:
             connection = mysql.connector.connect(
                 host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
                 user=os.getenv("DB_USER"),
                 password=os.getenv("DB_PASSWORD"),
                 database=os.getenv("DB_NAME")
@@ -949,6 +951,7 @@ def update_device(device_id):
         try:
             connection = mysql.connector.connect(
                 host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
                 user=os.getenv("DB_USER"),
                 password=os.getenv("DB_PASSWORD"),
                 database=os.getenv("DB_NAME")
@@ -985,6 +988,7 @@ def delete_device(device_id):
         try:
             connection = mysql.connector.connect(
                 host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
                 user=os.getenv("DB_USER"),
                 password=os.getenv("DB_PASSWORD"),
                 database=os.getenv("DB_NAME")
@@ -1020,6 +1024,7 @@ def profile():
     try:
         connection = mysql.connector.connect(
             host=os.getenv("DB_HOST"),
+port=os.getenv("DB_PORT"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_NAME")
@@ -1131,6 +1136,7 @@ def delete_profile():
     try:
         connection = mysql.connector.connect(
             host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_NAME")
